@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bntosden4adbi"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_q22xs"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_v2pcc"]
+sky_material = SubResource("ProceduralSkyMaterial_q22xs")
+
+[sub_resource type="Environment" id="Environment_ibx6d"]
+background_mode = 2
+sky = SubResource("Sky_v2pcc")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r77dm"]
+albedo_color = Color(0.211765, 0.47451, 0.0666667, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q22xs"]
+albedo_color = Color(0.482353, 0.376471, 0.109804, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ibx6d")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(500, 1, 500)
+material = SubResource("StandardMaterial3D_r77dm")
+
+[node name="Box1" type="CSGBox3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3.9813)
+material = SubResource("StandardMaterial3D_q22xs")
+
+[node name="Box2" type="CSGBox3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.96791, 1, -3.17825)
+material = SubResource("StandardMaterial3D_q22xs")
+
+[node name="Box3" type="CSGBox3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.96791, 1, 3.12254)
+material = SubResource("StandardMaterial3D_q22xs")
+
+[node name="Box4" type="CSGBox3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.63286, 1, 2.24342)
+material = SubResource("StandardMaterial3D_q22xs")
