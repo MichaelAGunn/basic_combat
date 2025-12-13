@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://vs1x0o6jwv78"]
+
+[ext_resource type="Script" uid="uid://blaq5fg560pnj" path="res://char/npc.gd" id="1_j0o2v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bdvma"]
+albedo_color = Color(2.40654e-07, 0.482287, 0.391352, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j0o2v"]
+material = SubResource("StandardMaterial3D_bdvma")
+
+[sub_resource type="BoxMesh" id="BoxMesh_2a7p6"]
+size = Vector3(0.2, 0.2, 0.1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2cxww"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j0o2v"]
+radius = 1.0
+
+[node name="NPC" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_j0o2v")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_j0o2v")
+
+[node name="Nose" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.5)
+mesh = SubResource("BoxMesh_2a7p6")
+
+[node name="Space" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_2cxww")
+
+[node name="TalkRadius" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 16
+
+[node name="Collision" type="CollisionShape3D" parent="TalkRadius"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_j0o2v")

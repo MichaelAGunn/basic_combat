@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=3 uid="uid://v5fykyg7wmig"]
+
+[ext_resource type="Script" uid="uid://l0tyed02levt" path="res://char/enemy.gd" id="1_mk60s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sx1in"]
+albedo_color = Color(0, 0, 0.819608, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mk60s"]
+material = SubResource("StandardMaterial3D_sx1in")
+
+[sub_resource type="BoxMesh" id="BoxMesh_lymva"]
+size = Vector3(0.2, 0.2, 0.1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c265s"]
+
+[sub_resource type="Animation" id="Animation_mk60s"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0.819608, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lymva"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0.819608, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_c265s"]
+resource_name = "hurt"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.331216, 0.533925, 0.992009, 1), Color(0.741176, 0.533333, 0.992157, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6cqy1"]
+_data = {
+&"RESET": SubResource("Animation_lymva"),
+&"hurt": SubResource("Animation_c265s"),
+&"idle": SubResource("Animation_mk60s")
+}
+
+[node name="Enemy" type="CharacterBody3D"]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_mk60s")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_mk60s")
+
+[node name="Nose" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.5)
+mesh = SubResource("BoxMesh_lymva")
+
+[node name="Space" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_c265s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6cqy1")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

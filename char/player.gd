@@ -1,13 +1,15 @@
 class_name Player extends CharacterBody3D
 
+signal strike
+signal interact
+
 var mouse_sensitivity: float = 0.15
 var _mouse_input_direction := Vector2.ZERO
 var _last_movement_direction := Vector3.BACK
 var gravity: float = -30.0
 var state: int
-enum States {IDLE, WALK, JUMP, FALL}
-var to_attack: bool = false
-var is_attacking: bool = false
+enum States {IDLE, WALK, JUMP, FALL, ATTACK}
+var current_target: PhysicsBody3D
 
 @export var speed: float = 8.0
 @export var acceleration: float = 20.0
@@ -19,16 +21,21 @@ var is_attacking: bool = false
 @onready var camera_pivot = $CameraPivot
 @onready var camera = $CameraPivot/SpringArm3D/Camera3D
 @onready var anima = $AnimationPlayer
+@onready var staff = $Body/Staff
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Global.player = self
 	state = States.IDLE
+	staff.set_max_contacts_reported(1)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed('exit'):
 		get_tree().quit()
 	if event.is_action_pressed('attack'):
-		to_attack = true
+		change_state(States.ATTACK)
+	if event.is_action_pressed('interact'):
+		emit_signal('interact')
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Rotate Camera
@@ -40,7 +47,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		_mouse_input_direction = event.screen_relative * mouse_sensitivity
 
 func _physics_process(delta: float) -> void:
-	print(state)
 	# Camera by Mouse
 	camera_pivot.rotation.x -= _mouse_input_direction.y * delta
 	camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, -PI/2.0, PI/8.0)
@@ -49,9 +55,6 @@ func _physics_process(delta: float) -> void:
 	# PC Movement
 	moving(delta)
 	move_and_slide()
-	# Attacks
-	if to_attack and 'attack' not in anima.get_current_animation():
-		attacking()
 	# Animation by State Machine
 	state_logic()
 
@@ -76,12 +79,6 @@ func moving(delta: float) -> void:
 	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
 	body.global_rotation.y = lerp_angle(body.rotation.y, target_angle, rotation_speed * delta)
 
-func attacking() -> void:
-	anima.stop()
-	anima.play('attack')
-	to_attack = false
-	is_attacking = true
-
 func state_logic() -> void:
 	match state:
 		States.IDLE:
@@ -92,9 +89,16 @@ func state_logic() -> void:
 			jump()
 		States.FALL:
 			fall()
+		States.ATTACK:
+			attack()
 
 func change_state(next_state: int) -> void:
 	anima.stop()
+	if next_state == States.ATTACK:
+		staff.set_contact_monitor(true)
+	elif state == States.ATTACK:
+		staff.set_contact_monitor(false)
+		current_target = null
 	match next_state:
 		States.IDLE:
 			anima.play('idle')
@@ -104,46 +108,47 @@ func change_state(next_state: int) -> void:
 			anima.play('jump')
 		States.FALL:
 			anima.play('fall')
+		States.ATTACK:
+			anima.play('attack')
 	state = next_state
 
 func idle() -> void:
-	if not is_attacking:
-		if velocity.x != 0.0 or velocity.z != 0.0:
-			change_state(States.WALK)
-		if not is_on_floor():
-			if velocity.y > 0.0:
-				change_state(States.JUMP)
-			elif velocity.y < 0.0:
-				change_state(States.FALL)
+	if velocity.x != 0.0 or velocity.z != 0.0:
+		change_state(States.WALK)
+	if not is_on_floor():
+		if velocity.y > 0.0:
+			change_state(States.JUMP)
+		elif velocity.y < 0.0:
+			change_state(States.FALL)
 
 func walk() -> void:
-	if not is_attacking:
-		if velocity.x == 0.0:
-			change_state(States.IDLE)
-		if not is_on_floor():
-			if velocity.y > 0.0:
-				change_state(States.JUMP)
-			elif velocity.y < 0.0:
-				change_state(States.FALL)
+	if velocity.x == 0.0:
+		change_state(States.IDLE)
+	if not is_on_floor():
+		if velocity.y > 0.0:
+			change_state(States.JUMP)
+		elif velocity.y < 0.0:
+			change_state(States.FALL)
 
 func jump() -> void:
-	if not is_attacking:
-		if is_on_floor():
-			if velocity.x != 0.0 or velocity.z != 0.0:
-				change_state(States.WALK)
-			else:
-				change_state(States.IDLE)
+	if is_on_floor():
+		if velocity.x != 0.0 or velocity.z != 0.0:
+			change_state(States.WALK)
 		else:
-			if velocity.y < 0.0:
-				change_state(States.FALL)
+			change_state(States.IDLE)
+	else:
+		if velocity.y < 0.0:
+			change_state(States.FALL)
 
 func fall() -> void:
-	if not is_attacking:
-		if is_on_floor():
-			if velocity.x != 0.0 or velocity.z != 0.0:
-				change_state(States.WALK)
-			else:
-				change_state(States.IDLE)
+	if is_on_floor():
+		if velocity.x != 0.0 or velocity.z != 0.0:
+			change_state(States.WALK)
+		else:
+			change_state(States.IDLE)
+
+func attack() -> void:
+	pass
 
 func _on_animation_player_animation_finished(anim_name):
 	if 'attack' in anim_name:
@@ -157,3 +162,9 @@ func _on_animation_player_animation_finished(anim_name):
 				change_state(States.WALK)
 			else:
 				change_state(States.IDLE)
+
+func _on_staff_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	if body is Target or body is Enemy:
+		if body != current_target:
+			current_target = body
+			emit_signal('strike', current_target)

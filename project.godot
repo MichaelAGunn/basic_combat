@@ -15,6 +15,10 @@ run/main_scene="uid://ceka7cw630kpl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://utils/global.gd"
+
 [input]
 
 exit={

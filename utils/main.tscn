@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ceka7cw630kpl"]
+[gd_scene load_steps=8 format=3 uid="uid://ceka7cw630kpl"]
 
 [ext_resource type="Script" uid="uid://c0i0ic4he72nx" path="res://utils/main.gd" id="1_r314e"]
 [ext_resource type="PackedScene" uid="uid://bntosden4adbi" path="res://env/world.tscn" id="2_1fxhy"]
 [ext_resource type="PackedScene" uid="uid://darypfnelxa3o" path="res://char/player.tscn" id="3_ur1xi"]
 [ext_resource type="PackedScene" uid="uid://cgl4ovsj4wjr3" path="res://ui/hud.tscn" id="4_ur1xi"]
+[ext_resource type="PackedScene" uid="uid://cqugi2uj0pyxs" path="res://char/target.tscn" id="5_c2y40"]
+[ext_resource type="PackedScene" uid="uid://v5fykyg7wmig" path="res://char/enemy.tscn" id="6_rb1tx"]
+[ext_resource type="PackedScene" uid="uid://vs1x0o6jwv78" path="res://char/npc.tscn" id="7_01jsn"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_r314e")
@@ -13,3 +16,12 @@ script = ExtResource("1_r314e")
 [node name="World" parent="." instance=ExtResource("2_1fxhy")]
 
 [node name="HUD" parent="." instance=ExtResource("4_ur1xi")]
+
+[node name="Target" parent="." instance=ExtResource("5_c2y40")]
+transform = Transform3D(0.0714105, 0, 0.997447, 0, 1, 0, -0.997447, 0, 0.0714105, -10.7748, 0, -2.795)
+
+[node name="Enemy" parent="." instance=ExtResource("6_rb1tx")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 0, -6)
+
+[node name="NPC" parent="." instance=ExtResource("7_01jsn")]
+transform = Transform3D(-0.665765, 0, -0.746162, 0, 1, 0, 0.746162, 0, -0.665765, 6.90625, 0, 2.67617)

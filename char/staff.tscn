@@ -15,7 +15,7 @@ radius = 0.1
 
 [node name="Staff" type="RigidBody3D"]
 collision_layer = 4
-collision_mask = 0
+collision_mask = 4
 gravity_scale = 0.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
