@@ -1,3 +1,35 @@
 class_name HUD extends Control
 
+var current_speaker: NPC
+
 @onready var dialogue = $Dynamic/Dialogue
+@onready var voice = $VoicePlayer
+@onready var cooldown = $VoicePlayer/Cooldown
+
+func _ready() -> void:
+	Global.hud = self
+	for npc in get_tree().get_nodes_in_group('npcs'):
+		npc.speak.connect(_on_npc_speaks)
+		npc.player_leaves_early.connect(_on_player_leaves_npc)
+
+func _on_npc_speaks(npc: NPC, message: String, audio_file: String) -> void:
+	if current_speaker != npc:
+		current_speaker = npc
+		var audio = load(audio_file)
+		voice.set_stream(audio)
+		voice.play()
+		dialogue.show()
+		dialogue.text = message
+
+func _on_voice_player_finished() -> void:
+	current_speaker = null
+	cooldown.start()
+
+func _on_cooldown_timeout() -> void:
+	dialogue.hide()
+
+func _on_player_leaves_npc() -> void:
+	if voice.is_playing():
+		current_speaker = null
+		voice.stop()
+		dialogue.hide()

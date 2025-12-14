@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgl4ovsj4wjr3"]
+[gd_scene load_steps=3 format=3 uid="uid://cgl4ovsj4wjr3"]
 
 [ext_resource type="Script" uid="uid://dhc0vgodiqqbs" path="res://ui/hud.gd" id="1_rbyyf"]
+[ext_resource type="AudioStream" uid="uid://c2mj02y6gscoy" path="res://assets/voice/hello_world.wav" id="2_276te"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -25,5 +26,19 @@ offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Dialogue" type="RichTextLabel" parent="Dynamic"]
+[node name="Dialogue" type="Label" parent="Dynamic"]
+visible = false
 layout_mode = 2
+
+[node name="QuestStep" type="Label" parent="Dynamic"]
+visible = false
+layout_mode = 2
+
+[node name="VoicePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_276te")
+
+[node name="Cooldown" type="Timer" parent="VoicePlayer"]
+one_shot = true
+
+[connection signal="finished" from="VoicePlayer" to="." method="_on_voice_player_finished"]
+[connection signal="timeout" from="VoicePlayer/Cooldown" to="." method="_on_cooldown_timeout"]

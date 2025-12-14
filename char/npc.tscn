@@ -14,12 +14,13 @@ size = Vector3(0.2, 0.2, 0.1)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2cxww"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j0o2v"]
-radius = 1.0
+radius = 1.25
 
-[node name="NPC" type="CharacterBody3D"]
+[node name="NPC" type="CharacterBody3D" groups=["npcs"]]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_j0o2v")
+given_name = null
 
 [node name="Body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -33,10 +34,12 @@ mesh = SubResource("BoxMesh_2a7p6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_2cxww")
 
-[node name="TalkRadius" type="Area3D" parent="."]
+[node name="SpeakRadius" type="Area3D" parent="."]
 collision_layer = 16
 collision_mask = 16
 
-[node name="Collision" type="CollisionShape3D" parent="TalkRadius"]
+[node name="Collision" type="CollisionShape3D" parent="SpeakRadius"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_j0o2v")
+
+[connection signal="body_exited" from="SpeakRadius" to="." method="_on_speak_radius_body_exited"]

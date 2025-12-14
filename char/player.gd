@@ -33,7 +33,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed('exit'):
 		get_tree().quit()
 	if event.is_action_pressed('attack'):
-		change_state(States.ATTACK)
+		if state != States.ATTACK:
+			change_state(States.ATTACK)
 	if event.is_action_pressed('interact'):
 		emit_signal('interact')
 
