@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceka7cw630kpl"]
+[gd_scene load_steps=11 format=3 uid="uid://ceka7cw630kpl"]
 
 [ext_resource type="Script" uid="uid://c0i0ic4he72nx" path="res://utils/main.gd" id="1_r314e"]
 [ext_resource type="PackedScene" uid="uid://bntosden4adbi" path="res://env/world.tscn" id="2_1fxhy"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://vs1x0o6jwv78" path="res://char/npc.tscn" id="7_01jsn"]
 [ext_resource type="Resource" uid="uid://c6k035y8symju" path="res://char/dialogue/chinaman_dialogue.tres" id="8_m6xnj"]
 [ext_resource type="Resource" uid="uid://bnx7pf6b25kxd" path="res://char/quest/chinaman_quest.tres" id="9_85qwh"]
+[ext_resource type="PackedScene" uid="uid://d1pcq7ogf1udb" path="res://obj/brazier.tscn" id="10_jtcvx"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_r314e")
@@ -24,9 +25,13 @@ transform = Transform3D(0.0714105, 0, 0.997447, 0, 1, 0, -0.997447, 0, 0.0714105
 
 [node name="Enemy" parent="." instance=ExtResource("6_rb1tx")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 0, -6)
+given_name = "Bad Guy"
 
 [node name="NPC" parent="." instance=ExtResource("7_01jsn")]
 transform = Transform3D(-0.665765, 0, -0.746162, 0, 1, 0, 0.746162, 0, -0.665765, 6.90625, 0, 2.67617)
 given_name = "Chinaman"
 dialogue = ExtResource("8_m6xnj")
 quest = ExtResource("9_85qwh")
+
+[node name="Brazier" parent="." instance=ExtResource("10_jtcvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.06678, 0, 6.10274)

@@ -12,14 +12,14 @@ func _ready() -> void:
 		npc.speak.connect(_on_npc_speaks)
 		npc.player_leaves_early.connect(_on_player_leaves_npc)
 
-func _on_npc_speaks(npc: NPC, message: String, audio_file: String) -> void:
+func _on_npc_speaks(npc: NPC, npc_name: String, message: String, audio_file: String) -> void:
 	if current_speaker != npc:
 		current_speaker = npc
 		var audio = load(audio_file)
 		voice.set_stream(audio)
 		voice.play()
 		dialogue.show()
-		dialogue.text = message
+		dialogue.text = npc_name + ': ' + message
 
 func _on_voice_player_finished() -> void:
 	current_speaker = null

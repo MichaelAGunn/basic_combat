@@ -164,8 +164,8 @@ func _on_animation_player_animation_finished(anim_name):
 			else:
 				change_state(States.IDLE)
 
-func _on_staff_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	if body is Target or body is Enemy:
-		if body != current_target:
-			current_target = body
+func _on_staff_body_shape_entered(_body_rid, entered_body, _body_shape_index, _local_shape_index):
+	if entered_body is Target or entered_body is Enemy:
+		if entered_body != current_target:
+			current_target = entered_body
 			emit_signal('strike', current_target)

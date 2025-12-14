@@ -18,10 +18,12 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://utils/global.gd"
+QuestManager="*res://utils/quest_manager.gd"
 
 [global_group]
 
 npcs="For everything that has dialogue."
+enemies="For all killable entities."
 
 [input]
 
