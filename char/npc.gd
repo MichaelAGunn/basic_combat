@@ -16,7 +16,11 @@ var line: int
 
 func _ready() -> void:
 	Global.player.interact.connect(_on_player_interacts)
-	line = Lines.GREETING
+	QuestManager.quest_completed.connect(_on_quest_completed)
+	if quest in QuestManager.complete_quests:
+		line = Lines.THANK
+	else:
+		line = Lines.GREETING
 
 func _on_player_interacts() -> void:
 	if Global.player in speak_radius.get_overlapping_bodies():
@@ -26,11 +30,16 @@ func _on_player_interacts() -> void:
 				line = Lines.ASK
 			Lines.ASK:
 				emit_signal('speak', self, given_name, dialogue.ask.message, dialogue.ask.audio)
+				QuestManager.activate_quest(quest)
 				line = Lines.INSIST
 			Lines.INSIST:
 				emit_signal('speak', self, given_name, dialogue.insist.message, dialogue.insist.audio)
 			Lines.THANK:
 				emit_signal('speak', self, given_name, dialogue.thank.message, dialogue.thank.audio)
+
+func _on_quest_completed(completed_quest: Quest) -> void:
+	if completed_quest == quest:
+		line = Lines.THANK
 
 func _on_speak_radius_body_exited(exited_body):
 	if exited_body == Global.player:

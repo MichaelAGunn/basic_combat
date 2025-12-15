@@ -3,11 +3,14 @@ class_name HUD extends Control
 var current_speaker: NPC
 
 @onready var dialogue = $Dynamic/Dialogue
+@onready var quest_step = $Dynamic/QuestStep
+@onready var quest_cooldown = $Dynamic/QuestStep/QuestCooldown
 @onready var voice = $VoicePlayer
 @onready var cooldown = $VoicePlayer/Cooldown
 
 func _ready() -> void:
 	Global.hud = self
+	QuestManager.quest_updated.connect(_on_quest_updated)
 	for npc in get_tree().get_nodes_in_group('npcs'):
 		npc.speak.connect(_on_npc_speaks)
 		npc.player_leaves_early.connect(_on_player_leaves_npc)
@@ -33,3 +36,10 @@ func _on_player_leaves_npc() -> void:
 		current_speaker = null
 		voice.stop()
 		dialogue.hide()
+
+func _on_quest_updated(step: QuestStep) -> void:
+	quest_step.text = step.description
+	quest_step.show()
+	quest_cooldown.start()
+	await quest_cooldown.timeout
+	quest_step.hide()

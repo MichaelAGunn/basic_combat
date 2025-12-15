@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://v5fykyg7wmig" path="res://char/enemy.tscn" id="6_rb1tx"]
 [ext_resource type="PackedScene" uid="uid://vs1x0o6jwv78" path="res://char/npc.tscn" id="7_01jsn"]
 [ext_resource type="Resource" uid="uid://c6k035y8symju" path="res://char/dialogue/chinaman_dialogue.tres" id="8_m6xnj"]
-[ext_resource type="Resource" uid="uid://bnx7pf6b25kxd" path="res://char/quest/chinaman_quest.tres" id="9_85qwh"]
+[ext_resource type="Resource" uid="uid://bnx7pf6b25kxd" path="res://char/quest/resources/chinaman_quest.tres" id="9_85qwh"]
 [ext_resource type="PackedScene" uid="uid://d1pcq7ogf1udb" path="res://obj/brazier.tscn" id="10_jtcvx"]
 
 [node name="Main" type="Node"]

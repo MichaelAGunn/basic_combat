@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="Quest" load_steps=5 format=3 uid="uid://dm8erfqqhwas3"]
+
+[ext_resource type="Script" uid="uid://c76v10q0ugmg5" path="res://char/quest/quest.gd" id="1_0mvts"]
+[ext_resource type="Script" uid="uid://bfc5x8s35o5gr" path="res://char/quest/quest_step.gd" id="2_cfnx2"]
+
+[sub_resource type="Resource" id="Resource_0mvts"]
+script = ExtResource("2_cfnx2")
+step_name = "Brazier 1"
+step_type = 0
+description = "Light the Brazier Once"
+target = "Brazier"
+number = 1
+active = false
+metadata/_custom_type_script = "uid://bfc5x8s35o5gr"
+
+[sub_resource type="Resource" id="Resource_cfnx2"]
+script = ExtResource("2_cfnx2")
+step_name = "Brazier 2"
+step_type = 0
+description = "Light the Brazier Twice"
+target = "Brazier"
+number = 1
+active = false
+metadata/_custom_type_script = "uid://bfc5x8s35o5gr"
+
+[resource]
+script = ExtResource("1_0mvts")
+quest_giver = "Indian"
+title = "Light the Brazier for the Indian"
+steps = Array[ExtResource("2_cfnx2")]([SubResource("Resource_0mvts"), SubResource("Resource_cfnx2")])
+reward = ""
+progress = 0
+metadata/_custom_type_script = "uid://c76v10q0ugmg5"

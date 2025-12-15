@@ -5,9 +5,13 @@ enum Progress {UNKNOWN, ACTIVE, COMPLETE}
 ## The given name of the NPC who gives the quest to the PC.
 @export var quest_giver: String
 ## The unique identifier for the quest manager.
-@export var quest_name: String
-## The list of steps required to complete the quest.
-@export var steps: Array[QuestStep]
+@export var title: String
+## The list of steps that have not been done; begins with all of the steps.
+@export var steps_to_do: Array[QuestStep]
+## The list of steps that currently need to be done.
+var steps_active: Array[QuestStep]
+## The list of steps that have been done; quest is completed when all mandatory steps are here.
+var steps_complete: Array[QuestStep]
 ## What the player gets at the end of the quest.
 @export var reward: String
 ## Progress level of the quest, for journal sorting.
