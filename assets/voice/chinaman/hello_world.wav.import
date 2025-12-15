@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c2mj02y6gscoy"
-path="res://.godot/imported/hello_world.wav-9ef30da8662af3805fe17201416314e1.sample"
+path="res://.godot/imported/hello_world.wav-3f8f69d0124eaeb7a8eff3b9c63738c5.sample"
 
 [deps]
 
-source_file="res://assets/voice/hello_world.wav"
-dest_files=["res://.godot/imported/hello_world.wav-9ef30da8662af3805fe17201416314e1.sample"]
+source_file="res://assets/voice/chinaman/hello_world.wav"
+dest_files=["res://.godot/imported/hello_world.wav-3f8f69d0124eaeb7a8eff3b9c63738c5.sample"]
 
 [params]
 

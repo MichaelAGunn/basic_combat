@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgl4ovsj4wjr3"]
+[gd_scene load_steps=4 format=3 uid="uid://cgl4ovsj4wjr3"]
 
 [ext_resource type="Script" uid="uid://dhc0vgodiqqbs" path="res://ui/hud.gd" id="1_rbyyf"]
-[ext_resource type="AudioStream" uid="uid://c2mj02y6gscoy" path="res://assets/voice/hello_world.wav" id="2_276te"]
+[ext_resource type="AudioStream" uid="uid://c2mj02y6gscoy" path="res://assets/voice/chinaman/hello_world.wav" id="2_276te"]
+[ext_resource type="Texture2D" uid="uid://butoghkdc0cpm" path="res://icon.svg" id="3_546lt"]
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -28,11 +29,15 @@ grow_vertical = 0
 
 [node name="Dialogue" type="Label" parent="Dynamic"]
 visible = false
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+text = "Dialogue"
 
 [node name="QuestStep" type="Label" parent="Dynamic"]
 visible = false
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
+text = "Quest Step"
 
 [node name="QuestCooldown" type="Timer" parent="Dynamic/QuestStep"]
 wait_time = 3.0
@@ -43,6 +48,33 @@ stream = ExtResource("2_276te")
 
 [node name="Cooldown" type="Timer" parent="VoicePlayer"]
 one_shot = true
+
+[node name="KeyPromptMargin" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="KeyPrompt" type="HBoxContainer" parent="KeyPromptMargin"]
+layout_mode = 2
+
+[node name="KeySprite" type="Sprite2D" parent="KeyPromptMargin/KeyPrompt"]
+position = Vector2(-34, 14)
+scale = Vector2(0.304687, 0.304688)
+texture = ExtResource("3_546lt")
+
+[node name="KeyLabel" type="Label" parent="KeyPromptMargin/KeyPrompt"]
+layout_mode = 2
+text = "Interact"
 
 [connection signal="finished" from="VoicePlayer" to="." method="_on_voice_player_finished"]
 [connection signal="timeout" from="VoicePlayer/Cooldown" to="." method="_on_cooldown_timeout"]

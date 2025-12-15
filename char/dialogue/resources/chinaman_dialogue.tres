@@ -6,31 +6,31 @@
 [sub_resource type="Resource" id="Resource_1xjkq"]
 script = ExtResource("1_1xjkq")
 message = "Kill the bad guy for me."
-audio = "res://assets/voice/kill_the_bad_guy_for_me.wav"
+audio = "res://assets/voice/chinaman/kill_the_bad_guy_for_me.wav"
+metadata/_custom_type_script = "uid://bnp3mcd2sqsqm"
+
+[sub_resource type="Resource" id="Resource_nouqn"]
+script = ExtResource("1_1xjkq")
+message = "I feel relieved."
+audio = "res://assets/voice/chinaman/i_feel_relieved.wav"
 metadata/_custom_type_script = "uid://bnp3mcd2sqsqm"
 
 [sub_resource type="Resource" id="Resource_q7m3l"]
 script = ExtResource("1_1xjkq")
 message = "Hello world!"
-audio = "res://assets/voice/hello_world.wav"
-metadata/_custom_type_script = "uid://bnp3mcd2sqsqm"
-
-[sub_resource type="Resource" id="Resource_8rat3"]
-script = ExtResource("1_1xjkq")
-message = "Go on, kill the bad guy!"
-audio = "res://assets/voice/go_on_kill_the_bad_guys.wav"
+audio = "res://assets/voice/chinaman/hello_world.wav"
 metadata/_custom_type_script = "uid://bnp3mcd2sqsqm"
 
 [sub_resource type="Resource" id="Resource_paxei"]
 script = ExtResource("1_1xjkq")
 message = "Thank you! Here's your reward."
-audio = "res://assets/voice/thank_you_heres_your_reward.wav"
+audio = "res://assets/voice/chinaman/thank_you_heres_your_reward.wav"
 metadata/_custom_type_script = "uid://bnp3mcd2sqsqm"
 
 [resource]
 script = ExtResource("2_8rat3")
 greeting = SubResource("Resource_q7m3l")
 ask = SubResource("Resource_1xjkq")
-insist = SubResource("Resource_8rat3")
 thank = SubResource("Resource_paxei")
+done = SubResource("Resource_nouqn")
 metadata/_custom_type_script = "uid://dmcjetqlbkcii"

@@ -10,32 +10,14 @@ const QUEST_RESOURCE_PATH: String = "res://char/quest/resources/"
 var quests: Array[Quest]
 var active_quests: Array[Quest] = []
 var complete_quests: Array[Quest] = []
+var dead_enemies: Array[String]
 
 func _ready() -> void:
 	for enemy in get_tree().get_nodes_in_group('enemies'):
 		enemy.dead.connect(_on_enemy_dies)
+	for interactable in get_tree().get_nodes_in_group('interactables'):
+		interactable.interaction.connect(_on_interaction)
 	gather_quest_data()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("test"):
-		for q in active_quests:
-			print(q.title + "STEPS TO DO")
-			for s in q.steps_to_do:
-				print(s.title)
-			print("ACTIVE STEP")
-			for s in q.steps_active:
-				print(s.title)
-			print("COMPLETE STEPS")
-			for s in q.steps_complete:
-				print(s.title)
-		print("")
-		#var selected_quest_index: int = find_quest_index_by_title("Bash the Target")
-		#print(selected_quest_index)
-		#if selected_quest_index >= 0:
-			#var selected_quest = quests[selected_quest_index]
-			#print(selected_quest.title)
-			#print(selected_quest.quest_giver)
-			#print(len(selected_quest.steps))
 
 ## Populate quest array with all quest resources.
 func gather_quest_data() -> void:
@@ -43,7 +25,6 @@ func gather_quest_data() -> void:
 	var quest_files: PackedStringArray = DirAccess.get_files_at(QUEST_RESOURCE_PATH)
 	for q in quest_files:
 		quests.append(load(QUEST_RESOURCE_PATH + q) as Quest)
-	print("Number of quests: " + str(quests.size()))
 
 ## Add quest to active quest array and allow it to be displayed by the UI and HUD.
 func activate_quest(quest: Quest) -> void:
@@ -51,6 +32,10 @@ func activate_quest(quest: Quest) -> void:
 	var first_step: QuestStep = quest.steps_to_do[0]
 	quest.steps_active.append(first_step)
 	quest.steps_to_do.erase(first_step)
+	emit_signal('quest_updated', first_step)
+	if first_step.step_type == QuestStep.StepType.KILL:
+		if first_step.target_name in dead_enemies:
+			update_quest(quest)
 
 ## Moves the active step into the completed steps list, and the next step into the active step list.
 ## Currently only handles linear quests with one active step at a time.
@@ -61,8 +46,13 @@ func update_quest(quest: Quest) -> void:
 	quest.steps_active.erase(active_step)
 	if next_step != null:
 		quest.steps_active.append(next_step)
+		quest.steps_to_do.erase(next_step)
 		emit_signal('quest_updated', next_step)
+		if next_step.step_type == QuestStep.StepType.KILL:
+			if next_step.target_name in dead_enemies:
+				update_quest(quest)
 	else:
+		quest.steps_to_do.erase(next_step)
 		complete_quest(quest)
 
 ## Remove quest from active quest array and give rewards to player.
@@ -70,21 +60,6 @@ func complete_quest(quest: Quest) -> void:
 	complete_quests.append(quest)
 	active_quests.erase(quest)
 	emit_signal('quest_completed', quest)
-
-## Find current step of active quest. Returns null if quest is not active.
-#func find_active_quest_step(quest: Quest) -> QuestStep:
-	#for q in active_quests:
-		#for s in q.steps:
-			#if s.active:
-				#return s
-	#return null
-
-#func find_active_quest_step_index(quest: Quest) -> int:
-	#for q in active_quests:
-		#for i in range(q.steps.size()):
-			#if q.steps[i].active:
-				#return i
-	#return -1
 
 ## Returns a quest based on title argument.
 func find_quest_by_title(title: String) -> Quest:
@@ -101,8 +76,16 @@ func find_quest_index_by_title(title: String) -> int:
 	return -1
 
 func _on_enemy_dies(enemy_name: String) -> void:
+	dead_enemies.append(enemy_name)
 	for q in active_quests:
 		for s in q.steps_active:
 			if s.step_type == QuestStep.StepType.KILL:
 				if s.target_name == enemy_name:
+					update_quest(q)
+
+func _on_interaction(object_name: String) -> void:
+	for q in active_quests:
+		for s in q.steps_active:
+			if s.step_type == QuestStep.StepType.INTERACT:
+				if s.target_name == object_name:
 					update_quest(q)

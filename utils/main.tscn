@@ -1,18 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://ceka7cw630kpl"]
+[gd_scene load_steps=13 format=3 uid="uid://lbdqb4i3xeca"]
 
-[ext_resource type="Script" uid="uid://c0i0ic4he72nx" path="res://utils/main.gd" id="1_r314e"]
 [ext_resource type="PackedScene" uid="uid://bntosden4adbi" path="res://env/world.tscn" id="2_1fxhy"]
 [ext_resource type="PackedScene" uid="uid://darypfnelxa3o" path="res://char/player.tscn" id="3_ur1xi"]
 [ext_resource type="PackedScene" uid="uid://cgl4ovsj4wjr3" path="res://ui/hud.tscn" id="4_ur1xi"]
 [ext_resource type="PackedScene" uid="uid://cqugi2uj0pyxs" path="res://char/target.tscn" id="5_c2y40"]
 [ext_resource type="PackedScene" uid="uid://v5fykyg7wmig" path="res://char/enemy.tscn" id="6_rb1tx"]
 [ext_resource type="PackedScene" uid="uid://vs1x0o6jwv78" path="res://char/npc.tscn" id="7_01jsn"]
-[ext_resource type="Resource" uid="uid://c6k035y8symju" path="res://char/dialogue/chinaman_dialogue.tres" id="8_m6xnj"]
+[ext_resource type="Resource" uid="uid://c6k035y8symju" path="res://char/dialogue/resources/chinaman_dialogue.tres" id="8_m6xnj"]
 [ext_resource type="Resource" uid="uid://bnx7pf6b25kxd" path="res://char/quest/resources/chinaman_quest.tres" id="9_85qwh"]
 [ext_resource type="PackedScene" uid="uid://d1pcq7ogf1udb" path="res://obj/brazier.tscn" id="10_jtcvx"]
+[ext_resource type="Resource" uid="uid://dfuwxmhonk4vi" path="res://char/dialogue/resources/indian_dialogue.tres" id="10_q7m3l"]
+[ext_resource type="Resource" uid="uid://dm8erfqqhwas3" path="res://char/quest/resources/indian_quest.tres" id="11_xboip"]
+[ext_resource type="Resource" uid="uid://ppi004fuu8su" path="res://char/dialogue/resources/scotsman_dialogue.tres" id="12_xboip"]
 
 [node name="Main" type="Node"]
-script = ExtResource("1_r314e")
 
 [node name="HUD" parent="." instance=ExtResource("4_ur1xi")]
 
@@ -27,11 +28,23 @@ transform = Transform3D(0.0714105, 0, 0.997447, 0, 1, 0, -0.997447, 0, 0.0714105
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7, 0, -6)
 given_name = "Bad Guy"
 
-[node name="NPC" parent="." instance=ExtResource("7_01jsn")]
+[node name="Brazier" parent="." instance=ExtResource("10_jtcvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.06678, 0, 6.10274)
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Chinaman" parent="Node3D" instance=ExtResource("7_01jsn")]
 transform = Transform3D(-0.665765, 0, -0.746162, 0, 1, 0, 0.746162, 0, -0.665765, 6.90625, 0, 2.67617)
 given_name = "Chinaman"
 dialogue = ExtResource("8_m6xnj")
 quest = ExtResource("9_85qwh")
 
-[node name="Brazier" parent="." instance=ExtResource("10_jtcvx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.06678, 0, 6.10274)
+[node name="Indian" parent="Node3D" instance=ExtResource("7_01jsn")]
+transform = Transform3D(-0.0573723, 0, 0.998353, 0, 1, 0, -0.998353, 0, -0.0573723, -11.2438, 0, 5.03621)
+given_name = "Indian"
+dialogue = ExtResource("10_q7m3l")
+quest = ExtResource("11_xboip")
+
+[node name="Scotsman" parent="Node3D" instance=ExtResource("7_01jsn")]
+transform = Transform3D(0.312484, 0, 0.949923, 0, 1, 0, -0.949923, 0, 0.312484, -11.8073, 0, -6.78786)
+dialogue = ExtResource("12_xboip")

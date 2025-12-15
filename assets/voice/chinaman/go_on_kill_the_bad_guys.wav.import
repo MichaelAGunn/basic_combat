@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://b10sv22gnixco"
-path="res://.godot/imported/go_on_kill_the_bad_guys.wav-769a9b98efcf370b28cb64038fc0e214.sample"
+path="res://.godot/imported/go_on_kill_the_bad_guys.wav-2c7dc1256499699255e035f2652da65b.sample"
 
 [deps]
 
-source_file="res://assets/voice/go_on_kill_the_bad_guys.wav"
-dest_files=["res://.godot/imported/go_on_kill_the_bad_guys.wav-769a9b98efcf370b28cb64038fc0e214.sample"]
+source_file="res://assets/voice/chinaman/go_on_kill_the_bad_guys.wav"
+dest_files=["res://.godot/imported/go_on_kill_the_bad_guys.wav-2c7dc1256499699255e035f2652da65b.sample"]
 
 [params]
 

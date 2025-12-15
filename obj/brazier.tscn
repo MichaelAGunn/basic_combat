@@ -42,7 +42,7 @@ material = SubResource("StandardMaterial3D_vutpr")
 radial_segments = 6
 rings = 3
 
-[node name="Brazier" type="StaticBody3D"]
+[node name="Brazier" type="StaticBody3D" groups=["interactables"]]
 script = ExtResource("1_ags6x")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
@@ -69,3 +69,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
 process_material = SubResource("ParticleProcessMaterial_43i0y")
 draw_pass_1 = SubResource("SphereMesh_jhkmb")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="."]
+
+[connection signal="body_entered" from="InteractRadius" to="." method="_on_interact_radius_body_entered"]
+[connection signal="body_exited" from="InteractRadius" to="." method="_on_interact_radius_body_exited"]

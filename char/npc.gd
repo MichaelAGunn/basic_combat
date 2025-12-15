@@ -1,9 +1,10 @@
 class_name NPC extends CharacterBody3D
 
 signal speak(given_name: String, message: String, audio_file: String)
-signal player_leaves_early
+signal player_enters_radius
+signal player_exits_radius
 
-enum Lines {GREETING, ASK, INSIST, THANK}
+enum Lines {GREETING, ASK, INSIST, THANK, DONE}
 var line: int
 
 @export var given_name: String
@@ -27,20 +28,30 @@ func _on_player_interacts() -> void:
 		match line:
 			Lines.GREETING:
 				emit_signal('speak', self, given_name, dialogue.greeting.message, dialogue.greeting.audio)
-				line = Lines.ASK
+				if quest != null:
+					line = Lines.ASK
 			Lines.ASK:
 				emit_signal('speak', self, given_name, dialogue.ask.message, dialogue.ask.audio)
 				QuestManager.activate_quest(quest)
 				line = Lines.INSIST
 			Lines.INSIST:
-				emit_signal('speak', self, given_name, dialogue.insist.message, dialogue.insist.audio)
+				# TODO Change the dialogue to whatever's in the quest step!!!!!!!!!!!!!!!!!
+				var quest_step = QuestManager.find_quest_by_title(quest.title).steps_active[0]
+				emit_signal('speak', self, given_name, quest_step.line.message, quest_step.line.audio)
 			Lines.THANK:
 				emit_signal('speak', self, given_name, dialogue.thank.message, dialogue.thank.audio)
+				line = Lines.DONE
+			Lines.DONE:
+				emit_signal('speak', self, given_name, dialogue.done.message, dialogue.done.audio)
 
 func _on_quest_completed(completed_quest: Quest) -> void:
 	if completed_quest == quest:
 		line = Lines.THANK
 
+func _on_speak_radius_body_entered(entered_body):
+	if entered_body == Global.player:
+		emit_signal('player_enters_radius')
+
 func _on_speak_radius_body_exited(exited_body):
 	if exited_body == Global.player:
-		emit_signal('player_leaves_early')
+		emit_signal('player_exits_radius')
