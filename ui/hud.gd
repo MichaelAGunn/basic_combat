@@ -14,6 +14,8 @@ var current_speaker: NPC
 func _ready() -> void:
 	Global.hud = self
 	QuestManager.quest_updated.connect(_on_quest_updated)
+	Global.pause_menu.game_paused.connect(_on_game_paused)
+	Global.pause_menu.game_unpaused.connect(_on_game_unpaused)
 	for npc in get_tree().get_nodes_in_group('npcs'):
 		npc.speak.connect(_on_npc_speaks)
 		npc.player_enters_radius.connect(_on_player_enters_npc)
@@ -62,3 +64,9 @@ func _on_quest_updated(step: QuestStep) -> void:
 	quest_cooldown.start()
 	await quest_cooldown.timeout
 	quest_step.hide()
+
+func _on_game_paused() -> void:
+	self.hide()
+
+func _on_game_unpaused() -> void:
+	self.show()

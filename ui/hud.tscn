@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://butoghkdc0cpm" path="res://icon.svg" id="3_546lt"]
 
 [node name="HUD" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

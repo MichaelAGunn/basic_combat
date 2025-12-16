@@ -7,11 +7,11 @@ enum Progress {UNKNOWN, ACTIVE, COMPLETE}
 ## The unique identifier for the quest manager.
 @export var title: String
 ## The list of steps that have not been done; begins with all of the steps.
-@export var steps_to_do: Array[QuestStep]
+@export var steps_to_do: Array[QuestStep] = []
 ## The list of steps that currently need to be done.
-var steps_active: Array[QuestStep]
+var steps_active: Array[QuestStep] = []
 ## The list of steps that have been done; quest is completed when all mandatory steps are here.
-var steps_complete: Array[QuestStep]
+var steps_complete: Array[QuestStep] = []
 ## What the player gets at the end of the quest.
 @export var reward: String
 ## Progress level of the quest, for journal sorting.

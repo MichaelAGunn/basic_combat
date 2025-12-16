@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://lbdqb4i3xeca"]
+[gd_scene load_steps=14 format=3 uid="uid://lbdqb4i3xeca"]
 
+[ext_resource type="PackedScene" uid="uid://cepy40o3qoley" path="res://ui/pause_menu.tscn" id="1_iyc52"]
 [ext_resource type="PackedScene" uid="uid://bntosden4adbi" path="res://env/world.tscn" id="2_1fxhy"]
 [ext_resource type="PackedScene" uid="uid://darypfnelxa3o" path="res://char/player.tscn" id="3_ur1xi"]
 [ext_resource type="PackedScene" uid="uid://cgl4ovsj4wjr3" path="res://ui/hud.tscn" id="4_ur1xi"]
@@ -14,6 +15,8 @@
 [ext_resource type="Resource" uid="uid://ppi004fuu8su" path="res://char/dialogue/resources/scotsman_dialogue.tres" id="12_xboip"]
 
 [node name="Main" type="Node"]
+
+[node name="PauseMenu" parent="." instance=ExtResource("1_iyc52")]
 
 [node name="HUD" parent="." instance=ExtResource("4_ur1xi")]
 

@@ -1,0 +1,113 @@
+[gd_scene load_steps=2 format=3 uid="uid://cepy40o3qoley"]
+
+[ext_resource type="Script" uid="uid://0h4tmd0jc173" path="res://ui/pause_menu.gd" id="1_50142"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_50142")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.201527, 0.201527, 0.201527, 1)
+
+[node name="MainMenu" type="VBoxContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ColorRect/MainMenu"]
+layout_mode = 2
+text = "Paused"
+
+[node name="Resume" type="Button" parent="ColorRect/MainMenu"]
+process_mode = 2
+layout_mode = 2
+text = "Resume"
+
+[node name="Journal" type="Button" parent="ColorRect/MainMenu"]
+process_mode = 2
+layout_mode = 2
+text = "Journal"
+
+[node name="Quit" type="Button" parent="ColorRect/MainMenu"]
+process_mode = 2
+layout_mode = 2
+text = "Quit"
+
+[node name="JournalMenu" type="VBoxContainer" parent="ColorRect"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="ColorRect/JournalMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Journal"
+
+[node name="QuestTabs" type="HBoxContainer" parent="ColorRect/JournalMenu"]
+layout_mode = 2
+
+[node name="ActiveButton" type="Button" parent="ColorRect/JournalMenu/QuestTabs"]
+process_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Active Quests"
+
+[node name="CompleteButton" type="Button" parent="ColorRect/JournalMenu/QuestTabs"]
+process_mode = 2
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Complete Quests"
+
+[node name="QuestScroll" type="ScrollContainer" parent="ColorRect/JournalMenu"]
+custom_minimum_size = Vector2(500, 250)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="JournalEntries" type="VBoxContainer" parent="ColorRect/JournalMenu/QuestScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="JournalBack" type="Button" parent="ColorRect/JournalMenu"]
+process_mode = 2
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="ColorRect/MainMenu/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="ColorRect/MainMenu/Journal" to="." method="_on_journal_pressed"]
+[connection signal="pressed" from="ColorRect/MainMenu/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ColorRect/JournalMenu/QuestTabs/ActiveButton" to="." method="_on_active_button_pressed"]
+[connection signal="pressed" from="ColorRect/JournalMenu/QuestTabs/CompleteButton" to="." method="_on_complete_button_pressed"]
+[connection signal="pressed" from="ColorRect/JournalMenu/JournalBack" to="." method="_on_journal_back_pressed"]
